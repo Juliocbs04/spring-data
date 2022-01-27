@@ -8,15 +8,19 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="cargos")
+@Table(name="unidade_trabalho")
 @Getter
 @Setter
 @ToString
-public class Cargo {
+public class UnidadeTrabalho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String descricao;
-    @OneToMany(mappedBy = "cargo")
+
+    private String endereco;
+
+    @OneToMany(mappedBy = "unidadeTrabalhos", fetch = FetchType.EAGER)
     private List<Funcionario> funcionarios;
 }

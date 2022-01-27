@@ -1,21 +1,22 @@
 package br.com.alura.spring.data.service;
 
-import br.com.alura.spring.data.orm.Cargo;
-import br.com.alura.spring.data.repository.CargoRepository;
+import br.com.alura.spring.data.orm.Funcionario;
+import br.com.alura.spring.data.repository.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 @Service
-public class CrudCargoService {
+public class CrudFuncionarioService {
     private Boolean system = true;
     @Autowired
-    private CargoRepository cargoRepository;
+    private FuncionarioRepository funcionarioRepository;
 
     public void inicial(Scanner scanner){
         while(system){
-            System.out.println("Qual ação de cargo deseja executar");
+            System.out.println("FUNCIONARIO -Qual ação de cargo deseja executar");
             System.out.println("0 - Sair");
             System.out.println("1-  Salvar");
             System.out.println("2- Atualizar");
@@ -45,36 +46,42 @@ public class CrudCargoService {
     }
 
     private void salvar(Scanner scanner){
-        System.out.println("Descricao do cargo: ");
-        String descricao = scanner.next();
-        Cargo c = new Cargo();
-        c.setDescricao(descricao);
-        this.cargoRepository.save(c);
+        System.out.println("Nome do funcionário: ");
+        String nome = scanner.next();
+        System.out.println("CPF: ");
+        String cpf = scanner.next();
+        System.out.println("Salario do Funcionario: ");
+        Double salario = scanner.nextDouble();
+        Funcionario f = new Funcionario();
+        f.setNome(nome);
+        f.setDataContratacao(LocalDate.now());
+        f.setCpf(cpf);
+        f.setSalario(salario);
+        this.funcionarioRepository.save(f);
         System.out.println("Salvo com sucesso! ");
     }
 
     private void atualizar(Scanner scanner){
         System.out.println("Informe o ID: ");
         int id = scanner.nextInt();
-        System.out.println("Informe a nova Descrição: ");
-        String descricao = scanner.next();
-        Cargo c = new Cargo();
-        c.setId(id);
-        c.setDescricao(descricao);
+        System.out.println("Informe a novo Nome: ");
+        String nome = scanner.next();
+        Funcionario f = new Funcionario();
+        f.setId(id);
+        f.setNome(nome);
 
-        this.cargoRepository.save(c);
+        this.funcionarioRepository.save(f);
         System.out.println("Alterado com sucesso! ");
     }
 
     private void visualizar(){
-        Iterable<Cargo> cargos = this.cargoRepository.findAll();
-        cargos.forEach(cargo->System.out.println(cargo));
+        Iterable<Funcionario> funcionarios = this.funcionarioRepository.findAll();
+        funcionarios.forEach(funcionario->System.out.println(funcionario));
     }
 
     private void deletar(Scanner scanner){
         System.out.println("Informe o ID: ");
         int id = scanner.nextInt();
-        cargoRepository.deleteById(id);
+        funcionarioRepository.deleteById(id);
     }
-
 }
