@@ -14,7 +14,6 @@ import java.util.List;
 @Table(name="funcionarios")
 @Getter
 @Setter
-@ToString
 public class Funcionario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,4 +37,11 @@ public class Funcionario {
             @JoinColumn(name = "fk_funcionario")},
     inverseJoinColumns = { @JoinColumn(name = "fk_unidade")})
     private List<UnidadeTrabalho> unidadeTrabalhos;
+
+
+    @Override
+    public String toString() {
+        return "Funcionario: " + "id:" + id + "| nome:'" + nome + "| cpf:" + cpf + "| salario:" + salario
+                + "| dataContratacao:" + dataContratacao + "| cargo:" + cargo.getDescricao();
+    }
 }

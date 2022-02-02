@@ -1,29 +1,34 @@
 package br.com.alura.spring.data.service;
 
-import br.com.alura.spring.data.orm.UnidadeTrabalho;
-import br.com.alura.spring.data.repository.UnidadeTrabalhoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Scanner;
+
 import org.springframework.stereotype.Service;
 
-import java.util.Scanner;
+import br.com.alura.spring.data.orm.UnidadeTrabalho;
+import br.com.alura.spring.data.repository.UnidadeTrabalhoRepository;
 
 @Service
 public class CrudUnidadeTrabalhoService {
-    private Boolean system = true;
-    @Autowired
-    private UnidadeTrabalhoRepository unidadeTrabalhoRepository;
 
-    public void inicial(Scanner scanner){
-        while(system){
-            System.out.println("UNIDADE TRABALHO -Qual ação de cargo deseja executar");
+    private Boolean system = true;
+    private final UnidadeTrabalhoRepository unidadeTrabalhoRepository;
+
+    public CrudUnidadeTrabalhoService(UnidadeTrabalhoRepository unidadeTrabalhoRepository) {
+        this.unidadeTrabalhoRepository = unidadeTrabalhoRepository;
+    }
+
+    public void inicial(Scanner scanner) {
+        while(system) {
+            System.out.println("Qual acao de cargo deseja executar");
             System.out.println("0 - Sair");
-            System.out.println("1-  Salvar");
-            System.out.println("2- Atualizar");
-            System.out.println("3- Visualizar");
-            System.out.println("4- Deletar Registro pelo ID");
+            System.out.println("1 - Salvar");
+            System.out.println("2 - Atualizar");
+            System.out.println("3 - Visualizar");
+            System.out.println("4 - Deletar");
 
             int action = scanner.nextInt();
-            switch(action){
+
+            switch (action) {
                 case 1:
                     salvar(scanner);
                     break;
@@ -42,43 +47,53 @@ public class CrudUnidadeTrabalhoService {
             }
 
         }
+
     }
 
-    private void salvar(Scanner scanner){
-        System.out.println("Descrição: ");
-        String descricao = scanner.next();
-        System.out.println("Endereço: ");
+    private void salvar(Scanner scanner) {
+        System.out.println("Digite o nome da unidade");
+        String nome = scanner.next();
+
+        System.out.println("Digite o endereco");
         String endereco = scanner.next();
-        UnidadeTrabalho u = new UnidadeTrabalho();
-        u.setDescricao(descricao);
-        u.setEndereco(endereco);
-        this.unidadeTrabalhoRepository.save(u);
-        System.out.println("Salvo com sucesso! ");
+
+        UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
+        unidadeTrabalho.setDescricao(nome);
+        unidadeTrabalho.setEndereco(endereco);
+
+        unidadeTrabalhoRepository.save(unidadeTrabalho);
+        System.out.println("Salvo");
     }
 
-    private void atualizar(Scanner scanner){
-        System.out.println("Digite o id: ");
+    private void atualizar(Scanner scanner) {
+        System.out.println("Digite o id");
         Integer id = scanner.nextInt();
-        System.out.println("Descrição: ");
-        String descricao = scanner.next();
-        System.out.println("Endereço: ");
+
+        System.out.println("Digite o nome da unidade");
+        String nome = scanner.next();
+
+        System.out.println("Digite o endereco");
         String endereco = scanner.next();
-        UnidadeTrabalho u = new UnidadeTrabalho();
-        u.setId(id);
-        u.setDescricao(descricao);
-        u.setEndereco(endereco);
-        this.unidadeTrabalhoRepository.save(u);
-        System.out.println("Alterado com sucesso! ");
+
+        UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
+        unidadeTrabalho.setId(id);
+        unidadeTrabalho.setDescricao(nome);
+        unidadeTrabalho.setEndereco(endereco);
+
+        unidadeTrabalhoRepository.save(unidadeTrabalho);
+        System.out.println("Alterado");
     }
 
-    private void visualizar(){
-        Iterable<UnidadeTrabalho> unidades = this.unidadeTrabalhoRepository.findAll();
-        unidades.forEach(unidade->System.out.println(unidade));
+    private void visualizar() {
+        Iterable<UnidadeTrabalho> unidades = unidadeTrabalhoRepository.findAll();
+        unidades.forEach(unidade -> System.out.println(unidade));
     }
 
-    private void deletar(Scanner scanner){
-        System.out.println("Informe o ID: ");
+    private void deletar(Scanner scanner) {
+        System.out.println("Id");
         int id = scanner.nextInt();
         unidadeTrabalhoRepository.deleteById(id);
+        System.out.println("Deletado");
     }
+
 }
