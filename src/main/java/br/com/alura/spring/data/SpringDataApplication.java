@@ -1,11 +1,6 @@
 package br.com.alura.spring.data;
 
-import br.com.alura.spring.data.orm.Cargo;
-import br.com.alura.spring.data.repository.CargoRepository;
-import br.com.alura.spring.data.service.CrudCargoService;
-import br.com.alura.spring.data.service.CrudFuncionarioService;
-import br.com.alura.spring.data.service.CrudUnidadeTrabalhoService;
-import br.com.alura.spring.data.service.RelatoriosService;
+import br.com.alura.spring.data.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +19,9 @@ public class SpringDataApplication implements CommandLineRunner {
 	private CrudUnidadeTrabalhoService unidadeService;
 	@Autowired
 	private RelatoriosService relatoriosService;
+	@Autowired
+	private RelatorioFuncionarioDinamico relatorioFuncionarioDinamico;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringDataApplication.class, args);
 	}
@@ -38,7 +36,8 @@ public class SpringDataApplication implements CommandLineRunner {
 			System.out.println("1 -  Cargo");
 			System.out.println("2 -  Funcionário");
 			System.out.println("3 -  Unidade de Trabalho");
-			System.out.println("4 -  Relatórios\n");
+			System.out.println("4 -  Relatórios");
+			System.out.println("5 -  Relatório funcionário dinâmico\n");
 			int action = sc.nextInt();
 			if(action == 1){
 				cargoService.inicial(sc);
@@ -48,6 +47,8 @@ public class SpringDataApplication implements CommandLineRunner {
 				unidadeService.inicial(sc);
 			}else if (action == 4){
 				relatoriosService.inicial(sc);
+			}else if (action == 5){
+			relatorioFuncionarioDinamico.inicial(sc);
 			}else{
 				system = false;
 			}
